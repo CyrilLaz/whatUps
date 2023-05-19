@@ -1,0 +1,26 @@
+$fontFamily: Arial, "Times New Roman", Helvetica, sans-serif;
+
+.app {
+  margin: 0;
+  font-family: $fontFamily;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #131B20;
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  
+  &__container {
+    display: flex;
+    max-width: 1600px;
+    margin: 19px auto;
+    flex: 1;
+  }
+
+  &__chatlist {
+    width: 100%;
+    max-width: 433px;
+    display: flex;
+    flex-direction: column;
+  }
+}

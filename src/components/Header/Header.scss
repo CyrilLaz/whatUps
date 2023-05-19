@@ -1,0 +1,44 @@
+$header-color: #202c33;
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: $header-color;
+    padding: 10px 16px;
+
+    &__info {
+        display: flex;
+    }
+
+    &__avatar {
+        object-fit: cover;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+    }
+
+    &__menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+    }
+
+    &__menu-item {
+        cursor: pointer;
+        border-radius: 50%;
+
+        &:active {
+            background-color: rgba($color: #ffffff, $alpha: 0.2);
+        }
+    }
+
+    &__button {
+        height: 24px;
+        width: 24px;
+        background-image: url("../../images/more-icon.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        padding: 8px;
+    }
+}
