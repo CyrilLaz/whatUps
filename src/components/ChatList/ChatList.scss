@@ -1,0 +1,10 @@
+.chatlist {
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+
+    &__list {
+        padding: 0;
+        margin: 0;
+    }
+}
