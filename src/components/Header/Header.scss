@@ -27,18 +27,29 @@ $header-color: #202c33;
     &__menu-item {
         cursor: pointer;
         border-radius: 50%;
+        margin-left: 5px;
 
+        &:first-of-type {
+            margin: 0;
+        }
         &:active {
-            background-color: rgba($color: #ffffff, $alpha: 0.2);
+            background-color: rgba($color: #fff, $alpha: 0.2);
         }
     }
 
     &__button {
         height: 24px;
         width: 24px;
-        background-image: url("../../images/more-icon.svg");
         background-repeat: no-repeat;
         background-position: center;
         padding: 8px;
+
+        &_more {
+            background-image: url("../../images/more-icon.svg");
+        }
+
+        &_new-chat {
+            background-image: url("../../images/new-chat-icon.svg");
+        }
     }
 }
