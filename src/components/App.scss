@@ -8,10 +8,12 @@ $textColor: #e9edef;
   -moz-osx-font-smoothing: grayscale;
   background-color: #131b20;
   display: flex;
-  height: 100%;
-  max-height: 100vh;
-  max-height: 100dvh;
   color: $textColor;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
 
   &__container {
     display: flex;

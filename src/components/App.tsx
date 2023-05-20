@@ -1,19 +1,18 @@
-import React from 'react';
 import './App.scss';
-import Header from './Header/Header';
 import ChatList from './ChatList/ChatList';
 import { chatList } from '../constants/chats';
+import HeaderWithChatlist from './HeaderWithChatlist/HeaderWithChatlist';
 
 function App() {
   return (
     <div className='app'>
       <div className='app__container'>
         <div className='app__chatlist'>
-          <Header urlAvatar='https://i.ytimg.com/vi/In11LnTuLvg/maxresdefault.jpg' />
+          <HeaderWithChatlist />
           <ChatList chatList={chatList} />
         </div>
-        <div className='app__chat'>
-          
+        <div className='app__conversation'>
+          {/* <Header urlAvatar='https://i.ytimg.com/vi/In11LnTuLvg/maxresdefault.jpg' /> */}
         </div>
       </div>
     </div>

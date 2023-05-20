@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import './ChatList.scss';
-import ChatItem from '../ChatItem/ChatItem';
+import ChatItem from '../UI/ChatItem/ChatItem';
 import { IChatListProps } from '../../interfaces/IChatList';
 
 const ChatList: FC<IChatListProps> = ({ chatList }): JSX.Element => {

@@ -1,0 +1,19 @@
+.header-item {
+    cursor: pointer;
+    border-radius: 50%;
+    margin-left: 5px;
+
+    &:first-of-type {
+        margin: 0;
+    }
+    &:active {
+        background-color: rgba($color: #fff, $alpha: 0.2);
+    }
+    &__button {
+        height: 24px;
+        width: 24px;
+        background-repeat: no-repeat;
+        background-position: center;
+        padding: 8px;
+    }
+}

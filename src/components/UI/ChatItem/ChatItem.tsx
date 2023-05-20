@@ -1,6 +1,6 @@
 import React, { FC, JSX } from 'react';
 import './ChatItem.scss';
-import { IChatItem } from '../../interfaces/IChatList';
+import { IChatItem } from '../../../interfaces/IChatList';
 
 const ChatItem: FC<IChatItem> = (props): JSX.Element => {
   return (
