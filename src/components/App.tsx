@@ -1,7 +1,8 @@
 import './App.scss';
 import ChatList from './ChatList/ChatList';
-import { chatList } from '../constants/chats';
+import { chatList } from '../data/chats';
 import HeaderWithChatlist from './HeaderWithChatlist/HeaderWithChatlist';
+import InitialChatView from './InitialChatView/InitialChatView';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <ChatList chatList={chatList} />
         </div>
         <div className='app__conversation'>
+          <InitialChatView/>
           {/* <Header urlAvatar='https://i.ytimg.com/vi/In11LnTuLvg/maxresdefault.jpg' /> */}
         </div>
       </div>

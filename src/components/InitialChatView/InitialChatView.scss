@@ -1,0 +1,54 @@
+.initial-view {
+    flex: 1;
+    display: flex;
+    background-color: #222e35;
+    border-bottom: 6px solid #008069;
+    flex-direction: column;
+
+    &__greening {
+        margin: auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    &__image {
+        max-width: 300px;
+        width: 100%;
+        margin-bottom: 40px;
+    }
+
+    &__title {
+        font-size: 32px;
+        font-weight: 400;
+        margin: 0 0 16px;
+        padding: 0;
+    }
+
+    &__text {
+        max-width: 560px;
+        text-align: center;
+        font-size: 16px;
+        color: #8696a0;
+        margin: 0;
+        padding: 0;
+    }
+    &__warning {
+        color: #667781;
+        font-size: 14px;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+
+        &::before {
+            content: "";
+            background-image: url("../../images/lock.svg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 10px;
+            height: 10px;
+            margin-right: 2px;
+        }
+    }
+}
