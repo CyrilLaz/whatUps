@@ -3,8 +3,13 @@ import ChatList from './ChatList/ChatList';
 import { chatList } from '../data/chats';
 import HeaderWithChatlist from './HeaderWithChatlist/HeaderWithChatlist';
 import InitialChatView from './InitialChatView/InitialChatView';
+// import { useState } from 'react';
+import HeaderWithChat from './HeaderWithChat/HeaderWithChat';
+import ChatView from './ChatView/ChatView';
+import { messages } from '../data/messages';
 
 function App() {
+  // const [actualChat, setActualChat] = useState({});
   return (
     <div className='app'>
       <div className='app__container'>
@@ -13,8 +18,18 @@ function App() {
           <ChatList chatList={chatList} />
         </div>
         <div className='app__conversation'>
-          <InitialChatView/>
-          {/* <Header urlAvatar='https://i.ytimg.com/vi/In11LnTuLvg/maxresdefault.jpg' /> */}
+          {false ? (
+            <InitialChatView />
+          ) : (
+            <>
+              <HeaderWithChat
+                avatarUrl={chatList[0].avatarUrl}
+                name={chatList[0].name}
+                id={chatList[0].id}
+              />
+              <ChatView messages={messages}/>
+            </>
+          )}
         </div>
       </div>
     </div>

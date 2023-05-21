@@ -1,10 +1,10 @@
 export interface IChatItem {
     avatarUrl: string;
     name: string;
-    lastMessage: string;
+    lastMessage?: string;
     id: string;
-    timeStamp: string
-    counter: number
+    timeStamp?: string
+    counter?: number
 }
 
 export interface IChatListProps {

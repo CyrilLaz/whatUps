@@ -3,7 +3,7 @@ import './Header.scss';
 
 interface IHeader {
   urlAvatar: string;
-  menu: JSX.Element;
+  menu?: JSX.Element;
   info?: JSX.Element;
 }
 

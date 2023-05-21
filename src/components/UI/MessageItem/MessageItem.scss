@@ -1,0 +1,13 @@
+.message {
+    max-width: 65%;
+    padding: 7px;
+    border-radius: 7.5px;
+
+    &_outgoing {
+        background-color: #005c4b;
+    }
+
+    &_incoming {
+        background-color: #202c33;
+    }
+}
