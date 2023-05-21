@@ -2,7 +2,8 @@
     max-width: 65%;
     padding: 7px;
     border-radius: 7.5px;
-
+    overflow-wrap: anywhere;
+    
     &_outgoing {
         background-color: #005c4b;
     }

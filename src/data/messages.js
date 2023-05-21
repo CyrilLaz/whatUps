@@ -5,7 +5,7 @@ export const messages = [
     timestamp: 1684585039,
     typeMessage: 'extendedTextMessage',
     chatId: '79940912793@c.us',
-    textMessage: 'tesy',
+    textMessage: 'выффффффффффффыыыыыыыыыы<div>фыыыыыфыф</div><div><br></div>',
     extendedTextMessage: {
       text: 'tesy',
       description: '',

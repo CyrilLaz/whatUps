@@ -7,6 +7,7 @@ import InitialChatView from './InitialChatView/InitialChatView';
 import HeaderWithChat from './HeaderWithChat/HeaderWithChat';
 import ChatView from './ChatView/ChatView';
 import { messages } from '../data/messages';
+import ChatInput from './ChatInput/ChatInput';
 
 function App() {
   // const [actualChat, setActualChat] = useState({});
@@ -28,6 +29,7 @@ function App() {
                 id={chatList[0].id}
               />
               <ChatView messages={messages}/>
+              <ChatInput/>
             </>
           )}
         </div>
