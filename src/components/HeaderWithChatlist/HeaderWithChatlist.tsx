@@ -2,12 +2,19 @@ import { FC } from 'react';
 import Header from '../layouts/Header/Header';
 import HeaderButton from '../UI/HeaderButton/HeaderButton';
 import moreIcon from '../../images/more-icon.svg';
-import newChatIcon from "../../images/new-chat-icon.svg";
+import newChatIcon from '../../images/new-chat-icon.svg';
 
-const HeaderWithChatlist: FC = () => {
+interface IHeaderWithChat {
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const HeaderWithChat: FC<IHeaderWithChat> = ({ setVisible }) => {
   const menu = (
     <>
-      <HeaderButton image={newChatIcon} callMenu={() => console.log('button')} />
+      <HeaderButton
+        image={newChatIcon}
+        callMenu={() => setVisible(true)}
+      />
       <HeaderButton image={moreIcon} callMenu={() => console.log('button')} />
     </>
   );
@@ -19,4 +26,4 @@ const HeaderWithChatlist: FC = () => {
   );
 };
 
-export default HeaderWithChatlist;
+export default HeaderWithChat;

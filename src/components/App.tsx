@@ -14,14 +14,27 @@ import { SearchContext } from '../context/SearchContext';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
+  const [isNewChatVisible, setIsNewChatVisible] = useState(false);
 
   return (
     <div className='app'>
       <div className='app__container'>
-        <SearchContext.Provider value={{avatar: 'https://i.ytimg.com/vi/In11LnTuLvg/maxresdefault.jpg' ,name:'Basya', value:searchValue, setValue:setSearchValue }}>
-          <NewChat />
+        <SearchContext.Provider
+          value={{
+            avatar: 'https://i.ytimg.com/vi/In11LnTuLvg/maxresdefault.jpg',
+            name: 'Basya',
+            value: searchValue,
+            setValue: setSearchValue,
+          }}
+        >
+          <NewChat
+            onSearchSubmit={() => console.log('поиск номера')}
+            createChat={() => console.log('создание чата')}
+            isVisible={isNewChatVisible}
+            setVisible={setIsNewChatVisible}
+          />
           <div className='app__chatlist'>
-            <HeaderWithChatlist />
+            <HeaderWithChatlist setVisible={setIsNewChatVisible} />
             <ChatList chatList={chatList} />
           </div>
           <div className='app__conversation'>

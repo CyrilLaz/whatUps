@@ -3,24 +3,25 @@ import './NewChat.scss';
 import { useSearchContext } from '../../context/SearchContext';
 
 interface INewChat {
-  name?: string;
-  avatar?: string;
   onSearchSubmit: () => void;
-  onClick: () => void;
-  searchValue: string;
-  setSearchValue: Dispatch<React.SetStateAction<string>>;
+  createChat: () => void;
+  setVisible: Dispatch<React.SetStateAction<boolean>>;
+  isVisible:boolean
 }
 
-const NewChat: FC<any> = (props) => {
-  const {setValue, value,avatar,name} = useSearchContext();
+const NewChat: FC<INewChat> = (props) => {
+  const { setValue, value, avatar, name } = useSearchContext();
   function onChange(e: ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value);
   }
 
   return (
-    <div className='new-chat'>
+    <div className={`new-chat${props.isVisible?' new-chat_visible':''}`}>
       <header className='new-chat__header'>
-        <span className='new-chat__back'></span>
+        <span
+          onClick={() => props.setVisible(false)}
+          className='new-chat__back'
+        ></span>
         <h2 className='new-chat__title'>Новый чат</h2>
       </header>
       <form onSubmit={props.onSearchSubmit} className='new-chat__search'>
@@ -39,7 +40,7 @@ const NewChat: FC<any> = (props) => {
         <span className='new-chat__no-result'>
           Пользователя по такому номеру не найдено!
         </span>
-        <div onClick={props.onClick} className='new-chat__contact'>
+        <div onClick={props.createChat} className='new-chat__contact'>
           <img
             src={avatar}
             alt={`Изображение контакта ${name}`}
