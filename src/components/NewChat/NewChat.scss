@@ -1,0 +1,136 @@
+@import "../../styles/variables.scss";
+
+.new-chat {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    max-width: 30%;
+    min-width: 206px;
+    background-color: $mainBackColor;
+    top: 0;
+    bottom: 0;
+    left: 0px;
+    &__header {
+        background-color: $header-color;
+        display: flex;
+        align-items: center;
+        padding: 50px 20px 0;
+        margin-bottom: 7px;
+    }
+
+    &__back {
+        display: block;
+        box-sizing: border-box;
+        height: 24px;
+        width: 24px;
+        background-image: url("../../images/arrow-back.svg");
+        background-repeat: no-repeat;
+        background-size: 24px 24px;
+        background-position: center;
+        cursor: pointer;
+    }
+
+    &__search {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    &__title {
+        margin: 20px 10px 20px;
+        padding: 0;
+        font-size: 19px;
+        font-weight: 700;
+        line-height: 100%;
+    }
+
+    &__input-container {
+        background-color: $chatContainer;
+        height: 35px;
+        width: 90%;
+        border-radius: 7.5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__phone {
+        background-color: transparent;
+        border: none;
+        color: $textColor;
+        font-size: 15px;
+        padding: 7px;
+        width: 80%;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__submit {
+        padding: 0;
+        background-color: transparent;
+        border: none;
+        background-image: url("../../images/phone-call.svg");
+        width: 24px;
+        height: 24px;
+        background-position: center;
+        background-size: cover;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+        margin: 5px;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+    &__result {
+        display: flex;
+        justify-content: center;
+    }
+    &__no-result {
+        margin: 20px 10px 20px;
+        padding: 0;
+        margin: 0;
+        font-size: 15px;
+        font-weight: 400;
+        max-width: 120px;
+        text-align: center;
+        display: none;
+    }
+
+    &__contact {
+        width: 100px;
+        height: 120px;
+        border: 1px solid $lineColor;
+        border-radius: 10%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+        &:hover {
+            background-color: $colorActiveButton;
+        }
+    }
+
+    &__avatar {
+        object-fit: cover;
+        border-radius: 50%;
+        width: 49px;
+        height: 49px;
+        margin-bottom: 8px;
+    }
+
+    &__name {
+        max-width: 90%;
+        padding: 0;
+        font-size: 16px;
+        font-weight: 400;
+        margin: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

@@ -8,31 +8,38 @@ import HeaderWithChat from './HeaderWithChat/HeaderWithChat';
 import ChatView from './ChatView/ChatView';
 import { messages } from '../data/messages';
 import ChatInput from './ChatInput/ChatInput';
+import NewChat from './NewChat/NewChat';
+import { useState } from 'react';
+import { SearchContext } from '../context/SearchContext';
 
 function App() {
-  // const [actualChat, setActualChat] = useState({});
+  const [searchValue, setSearchValue] = useState('');
+
   return (
     <div className='app'>
       <div className='app__container'>
-        <div className='app__chatlist'>
-          <HeaderWithChatlist />
-          <ChatList chatList={chatList} />
-        </div>
-        <div className='app__conversation'>
-          {false ? (
-            <InitialChatView />
-          ) : (
-            <>
-              <HeaderWithChat
-                avatarUrl={chatList[0].avatarUrl}
-                name={chatList[0].name}
-                id={chatList[0].id}
-              />
-              <ChatView messages={messages}/>
-              <ChatInput/>
-            </>
-          )}
-        </div>
+        <SearchContext.Provider value={{avatar: 'https://i.ytimg.com/vi/In11LnTuLvg/maxresdefault.jpg' ,name:'Basya', value:searchValue, setValue:setSearchValue }}>
+          <NewChat />
+          <div className='app__chatlist'>
+            <HeaderWithChatlist />
+            <ChatList chatList={chatList} />
+          </div>
+          <div className='app__conversation'>
+            {false ? (
+              <InitialChatView />
+            ) : (
+              <>
+                <HeaderWithChat
+                  avatarUrl={chatList[0].avatarUrl}
+                  name={chatList[0].name}
+                  id={chatList[0].id}
+                />
+                <ChatView messages={messages} />
+                <ChatInput />
+              </>
+            )}
+          </div>
+        </SearchContext.Provider>
       </div>
     </div>
   );

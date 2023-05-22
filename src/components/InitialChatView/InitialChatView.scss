@@ -1,8 +1,10 @@
+@import "../../styles/variables.scss";
+
 .initial-view {
     flex: 1;
     display: flex;
-    background-color: #222e35;
-    border-bottom: 6px solid #008069;
+    background-color: $initBackColor;
+    border-bottom: 6px solid $initBorderBottomColor;
     flex-direction: column;
 
     &__greening {
