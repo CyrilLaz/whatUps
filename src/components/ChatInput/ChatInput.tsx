@@ -2,31 +2,37 @@ import { FC, useState, FormEvent, useEffect } from 'react';
 import './ChatInput.scss';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 
-interface IChatInputProps {}
+interface IChatInputProps {
+  setMessageInputValue: React.Dispatch<React.SetStateAction<string>>;
+  messageInputValue: string;
+  onSubmitMessage: () => void;
+}
 
-const ChatInput: FC<IChatInputProps> = (props) => {
+const ChatInput: FC<IChatInputProps> = ({
+  setMessageInputValue,
+  messageInputValue,
+  onSubmitMessage,
+}) => {
   const [isEmpty, setIsEmpty] = useState(true);
-  const [value, setValue] = useState('');
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setValue('');
-    if (!isEmpty) console.log('отправляет сообщение ');
+    if (!isEmpty) onSubmitMessage();
   }
 
   useEffect(() => {
-    setIsEmpty(value.length === 0);
-  }, [value]);
+    setIsEmpty(messageInputValue.length === 0);
+  }, [messageInputValue]);
 
   function onChange(e: ContentEditableEvent) {
-    setValue(e.target.value);
+    setMessageInputValue(e.target.value);
   }
 
   return (
     <form className='chat-input' onSubmit={onSubmit}>
       <div className='chat-input__container'>
         <ContentEditable
-          html={value}
+          html={messageInputValue}
           disabled={false}
           onChange={onChange}
           className='chat-input__input'

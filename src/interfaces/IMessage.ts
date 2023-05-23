@@ -1,32 +1,18 @@
-export interface IIncomeMessage {
+interface IMessage {
     type: string;
     idMessage: string;
     timestamp: number;
-    typeMessage: string;
-    chatId: string;
     textMessage: string;
+}
+
+export interface IIncomeMessage extends IMessage {
+    type: 'incoming'
     senderId: string;
-    senderName: string;
 }
 
-export interface IOutgoMessage {
-    type: string;
-    idMessage: string;
-    timestamp: number;
-    typeMessage: string;
-    chatId: string;
-    textMessage: string;
-    extendedTextMessage: ExtendedTextMessage;
-    statusMessage: string;
-    sendByApi: boolean;
+
+export interface IOutgoMessage extends IMessage {
+    type: 'outgoing'
+    statusMessage: 'pending' | 'sent' | 'delivered' | 'read';
 }
 
-interface ExtendedTextMessage {
-    text: string;
-    description: string;
-    title: string;
-    previewType: string;
-    jpegThumbnail: string;
-    forwardingScore: null;
-    isForwarded: null;
-}

@@ -1,6 +1,7 @@
 import { TApiData } from '../../types/TApiData';
 import axios from 'axios';
 import { TContactInfo, TApiCheckNumber } from '../../types/TContactInfo';
+import { TSendMessage, TSendMessageAnswer } from '../../types/TMessage';
 
 export default class Api {
   host: string;
@@ -13,9 +14,13 @@ export default class Api {
     this.token = apiTokenInstance;
   }
 
+  _urlRequest(a: string) {
+    return `${this.host}/waInstance${this.id}/${a}/${this.token}`
+  }
+
   getContact(number: string): Promise<TContactInfo> {
     return axios
-      .post(`${this.host}/waInstance${this.id}/GetContactInfo/${this.token}`, {
+      .post(this._urlRequest('GetContactInfo'), {
         chatId: `${number}@c.us`,
       })
       .then(({ data }) => data);
@@ -23,9 +28,13 @@ export default class Api {
 
   checkNumber(number: string): Promise<TApiCheckNumber> {
     return axios
-      .post(`${this.host}/waInstance${this.id}/checkWhatsapp/${this.token}`, {
+      .post(this._urlRequest('checkWhatsapp'), {
         phoneNumber: number,
       })
       .then(({ data }) => data);
+  }
+
+  sendMessage({chatId, message}:TSendMessage): Promise<TSendMessageAnswer> {
+    return axios.post(this._urlRequest('sendMessage'), { chatId, message }).then(({ data }) => data);
   }
 }
