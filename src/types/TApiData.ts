@@ -1,2 +1,2 @@
-export type TApiData = { idInstance: string, apiTokenInstance: string };
+export type TApiData = { host: string, idInstance: string, apiTokenInstance: string };
 

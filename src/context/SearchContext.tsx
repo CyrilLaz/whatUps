@@ -4,11 +4,13 @@ export type TSearchContext = {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   avatar: string;
   name: string;
+  chatId: string;
 };
 export const SearchContext = createContext<TSearchContext>({
-  value: '',
-  setValue: () => {},
-  avatar: '',
-  name: '',
-});
+    value: '',
+    setValue: () => {},
+    avatar: '',
+    name: '',
+    chatId: '',
+  });
 export const useSearchContext = () => useContext(SearchContext);
