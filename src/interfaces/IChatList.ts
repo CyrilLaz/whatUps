@@ -4,7 +4,7 @@ export interface IChatItem {
     lastMessage?: string;
     id: string;
     timeStamp?: string
-    counter?: number
+    counter: number
 }
 
 export interface IChatListProps {

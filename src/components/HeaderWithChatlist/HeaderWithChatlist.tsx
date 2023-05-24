@@ -6,16 +6,17 @@ import newChatIcon from '../../images/new-chat-icon.svg';
 
 interface IHeaderWithChat {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  updateState: ()=>Promise<void>
 }
 
-const HeaderWithChat: FC<IHeaderWithChat> = ({ setVisible }) => {
+const HeaderWithChat: FC<IHeaderWithChat> = ({ setVisible,updateState }) => {
   const menu = (
     <>
       <HeaderButton
         image={newChatIcon}
         callMenu={() => setVisible(true)}
       />
-      <HeaderButton image={moreIcon} callMenu={() => console.log('button')} />
+      <HeaderButton image={moreIcon} callMenu={() => updateState()} />
     </>
   );
   return (

@@ -1,43 +1,55 @@
-export type TReceiveNotification = {
+type TReceiveNotification<T> = {
     receiptId: number;
-    body:      TBody;
+    body: T;
 }
 
-export type TBody = {
-    typeWebhook:  string;
-    instanceData: TInstanceData;
-    timestamp:    number;
-    idMessage:    string;
-    senderData:   TSenderData;
-    messageData:  TMessageData;
-}
-export type TInstanceData = {
-    idInstance:   number;
-    wid:          string;
-    typeInstance: string;
-}
-
-export type TMessageData = {
-    typeMessage:     string;
-    textMessageData: TTextMessageData;
+type TStatusBody = {
+    typeWebhook: 'outgoingMessageStatus';
+    chatId: string;
+    instanceData: {
+        idInstance: number;
+        wid: string;
+        typeInstance: string;
+    };
+    timestamp: number;
+    idMessage: string;
+    status: string;
+    sendByApi: boolean;
 }
 
-export type TTextMessageData = {
-    textMessage: string;
+type TMessageBody = {
+    typeWebhook: 'incomingMessageReceived';
+    instanceData: {
+        idInstance: number;
+        wid: string;
+        typeInstance: string;
+    };
+    timestamp: number;
+    idMessage: string;
+    senderData: {
+        chatId: string;
+        chatName: string;
+        sender: string;
+        senderName: string;
+    };
+    messageData: {
+        typeMessage: string;
+        textMessageData: {
+            textMessage: string;
+        };
+    };
 }
 
-export type TSenderData = {
-    chatId:     string;
-    chatName:   string;
-    sender:     string;
-    senderName: string;
-}
+export type TResponseDeleteNotification = { result: boolean }
 
 export type TSendMessage = {
-    chatId:  string;
+    chatId: string;
     message: string;
 }
 
 export type TSendMessageAnswer = {
     idMessage: string;
 }
+
+export type TReceiveNoteMessage = TReceiveNotification<TMessageBody>;
+export type TReceiveNoteStatus = TReceiveNotification<TStatusBody>;

@@ -1,7 +1,7 @@
 import { TApiData } from '../../types/TApiData';
 import axios from 'axios';
 import { TContactInfo, TApiCheckNumber } from '../../types/TContactInfo';
-import { TSendMessage, TSendMessageAnswer } from '../../types/TMessage';
+import { TReceiveNoteMessage, TReceiveNoteStatus, TResponseDeleteNotification, TSendMessage, TSendMessageAnswer } from '../../types/TMessage';
 
 export default class Api {
   host: string;
@@ -34,7 +34,15 @@ export default class Api {
       .then(({ data }) => data);
   }
 
-  sendMessage({chatId, message}:TSendMessage): Promise<TSendMessageAnswer> {
+  sendMessage({ chatId, message }: TSendMessage): Promise<TSendMessageAnswer> {
     return axios.post(this._urlRequest('sendMessage'), { chatId, message }).then(({ data }) => data);
+  }
+
+  receiveNotification(): Promise<TReceiveNoteMessage |TReceiveNoteMessage| null>{
+    return axios.get(this._urlRequest('receiveNotification')).then(({ data }) => data);
+  }
+
+  deleteNotification(id: number):Promise<TResponseDeleteNotification> {
+    return axios.delete(`${this._urlRequest('deleteNotification')}/${id}`).then(({ data }) => data);
   }
 }
