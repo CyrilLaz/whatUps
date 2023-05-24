@@ -6,6 +6,7 @@ import { TReceiveNoteMessage } from "../types/TMessage";
 const useGetNotifications = (a: typeof api) => {
     const [messageState, setMessageState] = useState<IIncomeMessage>();
     const [isLoad, setIsLoad] = useState(false);
+    const resetMessageState = useCallback((init=undefined)=>setMessageState(init),[])
     const getNote = useCallback(async () => {
         try {
             return await a.receiveNotification();
@@ -42,7 +43,7 @@ const useGetNotifications = (a: typeof api) => {
         setIsLoad(false);
     }, [deleteNote, getNote])
 
-    return { getMessages, isLoad, messageState }
+    return { getMessages, isLoad, messageState,resetMessageState }
 }
 
 export { useGetNotifications };

@@ -40,17 +40,18 @@ function App() {
   const [isInitialSearch, setIsInitialSearch] = useState(true);
   const [isInitialState, setIsInitialState] = useState(true);
   const [isButtonActive, setIsButtonActive] = useState(false);
-  const { getMessages, isLoad, messageState } = useGetNotifications(api);
+  const { getMessages, isLoad, messageState, resetMessageState } = useGetNotifications(api);
 
   useEffect(()=>{setIsButtonActive(isLoad)},[isLoad]);
   useEffect(() => {
     if (messageState) {      
         setMessagesMap((prev)=>new Map([...prev, [messageState.chatId, [...prev.get(messageState.chatId)||[], messageState]]]));
+        resetMessageState()
     }
-  }, [messageState]);
+  }, [messageState,resetMessageState]);
 
   async function checkNotification() {
-    await getMessages();
+    await getMessages();    
   }
 
   useEffect(() => {
