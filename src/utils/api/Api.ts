@@ -3,7 +3,11 @@ import axios from 'axios';
 import { TContactInfo, TApiCheckNumber } from '../../types/TContactInfo';
 import { TReceiveNoteMessage, TReceiveNoteStatus, TResponseDeleteNotification, TSendMessage, TSendMessageAnswer } from '../../types/TMessage';
 
-export default class Api {
+const id = process.env.REACT_APP_ID_INSTANCE!;
+const token = process.env.REACT_APP_API_TOKEN_INSTANCE!;
+const host = process.env.REACT_APP_HOST!;
+
+class Api {
   host: string;
   id: string;
   token: string;
@@ -46,3 +50,5 @@ export default class Api {
     return axios.delete(`${this._urlRequest('deleteNotification')}/${id}`).then(({ data }) => data);
   }
 }
+
+export const api = new Api({ host, idInstance: id, apiTokenInstance: token });

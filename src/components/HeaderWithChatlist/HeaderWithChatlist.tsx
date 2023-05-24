@@ -17,7 +17,7 @@ const HeaderWithChat: FC<IHeaderWithChat> = ({ setVisible, updateState,isButtonA
       <HeaderButton
         image={updateIcon}
         isButtonActive={isButtonActive}
-        callMenu={() => updateState()}
+        callMenu={() => updateState().catch(console.error)}
       />
     </>
   );

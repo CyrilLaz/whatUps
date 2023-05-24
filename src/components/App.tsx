@@ -6,15 +6,13 @@ import HeaderWithChat from './HeaderWithChat/HeaderWithChat';
 import ChatView from './ChatView/ChatView';
 import ChatInput from './ChatInput/ChatInput';
 import NewChat from './NewChat/NewChat';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SearchContext } from '../context/SearchContext';
-import Api from '../utils/api/Api';
+import { api } from '../utils/api/Api';
 import { TContactInfo } from '../types/TContactInfo';
 import { IChatItem } from '../interfaces/IChatList';
 import { IIncomeMessage, IOutgoMessage } from '../interfaces/IMessage';
-const id = process.env.REACT_APP_ID_INSTANCE!;
-const token = process.env.REACT_APP_API_TOKEN_INSTANCE!;
-const host = process.env.REACT_APP_HOST!;
+import { useGetNotifications } from '../hooks/useGetNotifications';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
@@ -42,7 +40,18 @@ function App() {
   const [isInitialSearch, setIsInitialSearch] = useState(true);
   const [isInitialState, setIsInitialState] = useState(true);
   const [isButtonActive, setIsButtonActive] = useState(false);
-  const api = new Api({ host, idInstance: id, apiTokenInstance: token });
+  const { getMessages, isLoad, messageState } = useGetNotifications(api);
+
+  useEffect(()=>{setIsButtonActive(isLoad)},[isLoad]);
+  useEffect(() => {
+    if (messageState) {      
+        setMessagesMap((prev)=>new Map([...prev, [messageState.chatId, [...prev.get(messageState.chatId)||[], messageState]]]));
+    }
+  }, [messageState]);
+
+  async function checkNotification() {
+    await getMessages();
+  }
 
   useEffect(() => {
     setMessagesInChat(messagesMap.get(currentChat.chatId) || []);
@@ -68,11 +77,12 @@ function App() {
   function onSubmitMessage() {
     const timestamp = Math.floor(Date.now() / 1000);
     api
-      .sendMessage({ chatId: contactInfo.chatId, message: messageInputValue })
+      .sendMessage({
+        chatId: contactInfo.chatId,
+        message: messageInputValue,
+      })
       .then(({ idMessage }) => {
-        const chat = messagesMap.get(contactInfo.chatId);
-        console.log(chat);
-        console.log(!!chat);
+        const chat = messagesMap.get(contactInfo.chatId) || [];
 
         const message: IOutgoMessage = {
           textMessage: messageInputValue,
@@ -80,16 +90,16 @@ function App() {
           timestamp,
           statusMessage: 'sent',
           idMessage,
+          chatId: contactInfo.chatId,
         };
 
         setMessagesMap(
-          new Map(messagesMap).set(
-            contactInfo.chatId,
-            !!chat ? [...chat, message] : [message]
-          )
+          new Map([...messagesMap, [contactInfo.chatId, [...chat, message]]])
         );
         setMessagesInChat(messagesMap.get(currentChat.chatId) || []);
-      });
+        setMessageInputValue('');
+      })
+      .catch(console.log);
   }
 
   function getContact() {
@@ -102,6 +112,7 @@ function App() {
           setSearchValue('');
           return api.getContact(searchValue);
         }
+        setIsInitialSearch(false);
         setIsNumberNotExist(true);
         throw new Error('Нет пользователя в ватсапе');
       })
@@ -110,38 +121,6 @@ function App() {
         setContactInfo(res);
       })
       .catch(console.log);
-  }
-
-  function updateState() {
-    setIsButtonActive(true);
-    return api
-      .receiveNotification()
-      .then((res) => {
-        console.log(res);
-
-        if (!res) return;
-        if (res.body.typeWebhook === 'incomingMessageReceived') {
-          const chat = messagesMap.get(res.body.senderData.chatId);
-          const message: IIncomeMessage = {
-            senderId: res.body.senderData.sender,
-            type: 'incoming',
-            idMessage: res.body.idMessage,
-            timestamp: res.body.timestamp,
-            textMessage: res.body.messageData.textMessageData.textMessage,
-          };
-          setMessagesMap(
-            new Map(messagesMap).set(
-              currentChat.chatId,
-              !!chat ? [...chat, message] : [message]
-            )
-          );
-        }
-        return api.deleteNotification(res.receiptId);
-      })
-      .then((res) => {
-        if (res?.result) updateState();
-      })
-      .catch(console.log).finally(()=>setIsButtonActive(false));
   }
 
   return (
@@ -168,7 +147,7 @@ function App() {
             <HeaderWithChatlist
               isButtonActive={isButtonActive}
               setVisible={setIsNewChatVisible}
-              updateState={updateState}
+              updateState={checkNotification}
             />
             <ChatList chatList={chatList} />
           </div>

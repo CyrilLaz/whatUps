@@ -3,6 +3,7 @@ interface IMessage {
     idMessage: string;
     timestamp: number;
     textMessage: string;
+    chatId:string
 }
 
 export interface IIncomeMessage extends IMessage {
