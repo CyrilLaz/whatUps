@@ -1,4 +1,13 @@
-@import '../../../styles/variables.scss';
+@import "../../../styles/variables.scss";
+
+@keyframes rotate {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
 .header-item {
     cursor: pointer;
     border-radius: 50%;
@@ -16,5 +25,14 @@
         background-repeat: no-repeat;
         background-position: center;
         padding: 8px;
+
+
+        &_active {
+            animation-name: rotate;
+            animation-timing-function: linear;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+        }
     }
 }

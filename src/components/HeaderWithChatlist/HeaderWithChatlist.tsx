@@ -1,22 +1,24 @@
 import { FC } from 'react';
 import Header from '../layouts/Header/Header';
 import HeaderButton from '../UI/HeaderButton/HeaderButton';
-import moreIcon from '../../images/more-icon.svg';
+import updateIcon from '../../images/update-icon.svg';
 import newChatIcon from '../../images/new-chat-icon.svg';
 
 interface IHeaderWithChat {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  updateState: ()=>Promise<void>
+  updateState: () => Promise<void>;
+  isButtonActive: boolean;
 }
 
-const HeaderWithChat: FC<IHeaderWithChat> = ({ setVisible,updateState }) => {
+const HeaderWithChat: FC<IHeaderWithChat> = ({ setVisible, updateState,isButtonActive }) => {
   const menu = (
     <>
+      <HeaderButton image={newChatIcon} callMenu={() => setVisible(true)} />
       <HeaderButton
-        image={newChatIcon}
-        callMenu={() => setVisible(true)}
+        image={updateIcon}
+        isButtonActive={isButtonActive}
+        callMenu={() => updateState()}
       />
-      <HeaderButton image={moreIcon} callMenu={() => updateState()} />
     </>
   );
   return (

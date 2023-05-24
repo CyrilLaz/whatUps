@@ -41,11 +41,11 @@ function App() {
   const [isNumberNotExist, setIsNumberNotExist] = useState(false);
   const [isInitialSearch, setIsInitialSearch] = useState(true);
   const [isInitialState, setIsInitialState] = useState(true);
-
+  const [isButtonActive, setIsButtonActive] = useState(false);
   const api = new Api({ host, idInstance: id, apiTokenInstance: token });
 
-  useEffect(() => {  
-    setMessagesInChat(messagesMap.get(currentChat.chatId)||[]);
+  useEffect(() => {
+    setMessagesInChat(messagesMap.get(currentChat.chatId) || []);
   }, [messagesMap, currentChat]);
 
   function createChat() {
@@ -73,7 +73,7 @@ function App() {
         const chat = messagesMap.get(contactInfo.chatId);
         console.log(chat);
         console.log(!!chat);
-        
+
         const message: IOutgoMessage = {
           textMessage: messageInputValue,
           type: 'outgoing',
@@ -82,12 +82,13 @@ function App() {
           idMessage,
         };
 
-        setMessagesMap( new Map(messagesMap).set(
+        setMessagesMap(
+          new Map(messagesMap).set(
             contactInfo.chatId,
             !!chat ? [...chat, message] : [message]
           )
         );
-        setMessagesInChat(messagesMap.get(currentChat.chatId)||[]);
+        setMessagesInChat(messagesMap.get(currentChat.chatId) || []);
       });
   }
 
@@ -112,6 +113,7 @@ function App() {
   }
 
   function updateState() {
+    setIsButtonActive(true);
     return api
       .receiveNotification()
       .then((res) => {
@@ -127,7 +129,8 @@ function App() {
             timestamp: res.body.timestamp,
             textMessage: res.body.messageData.textMessageData.textMessage,
           };
-          setMessagesMap(new Map(messagesMap).set(
+          setMessagesMap(
+            new Map(messagesMap).set(
               currentChat.chatId,
               !!chat ? [...chat, message] : [message]
             )
@@ -138,10 +141,9 @@ function App() {
       .then((res) => {
         if (res?.result) updateState();
       })
-      .catch(console.log);
+      .catch(console.log).finally(()=>setIsButtonActive(false));
   }
 
-  // setTimeout(() => updateState(), 30000);
   return (
     <div className='app'>
       <div className='app__container'>
@@ -164,6 +166,7 @@ function App() {
           />
           <div className='app__chatlist'>
             <HeaderWithChatlist
+              isButtonActive={isButtonActive}
               setVisible={setIsNewChatVisible}
               updateState={updateState}
             />
