@@ -1,7 +1,7 @@
 import { TApiData } from '../../types/TApiData';
 import axios from 'axios';
 import { TContactInfo, TApiCheckNumber } from '../../types/TContactInfo';
-import { TReceiveNoteMessage, TReceiveNoteStatus, TResponseDeleteNotification, TSendMessage, TSendMessageAnswer } from '../../types/TMessage';
+import { TReceiveNoteMessageExtText, TReceiveNoteMessageText, TResponseDeleteNotification, TSendMessage, TSendMessageAnswer } from '../../types/TMessage';
 
 const id = process.env.REACT_APP_ID_INSTANCE!;
 const token = process.env.REACT_APP_API_TOKEN_INSTANCE!;
@@ -42,7 +42,7 @@ class Api {
     return axios.post(this._urlRequest('sendMessage'), { chatId, message }).then(({ data }) => data);
   }
 
-  receiveNotification(): Promise<TReceiveNoteMessage |TReceiveNoteMessage| null>{
+  receiveNotification(): Promise<|TReceiveNoteMessageText|TReceiveNoteMessageExtText| null>{
     return axios.get(this._urlRequest('receiveNotification')).then(({ data }) => data);
   }
 

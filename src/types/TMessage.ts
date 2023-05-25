@@ -17,7 +17,7 @@ type TStatusBody = {
     sendByApi: boolean;
 }
 
-type TMessageBody = {
+type TMessageBody<T> = {
     typeWebhook: 'incomingMessageReceived';
     instanceData: {
         idInstance: number;
@@ -32,11 +32,27 @@ type TMessageBody = {
         sender: string;
         senderName: string;
     };
-    messageData: {
-        typeMessage: string;
+    messageData: T
+}
+
+type TMessageDataText = {
+            typeMessage: 'textMessage';
         textMessageData: {
             textMessage: string;
         };
+}
+
+
+ type TMessageDataExtText = {
+    typeMessage:             'extendedTextMessage';
+    extendedTextMessageData: {
+        text:            string;
+        description:     string;
+        title:           string;
+        previewType:     string;
+        jpegThumbnail:   string;
+        forwardingScore: number;
+        isForwarded:     boolean;
     };
 }
 
@@ -51,5 +67,6 @@ export type TSendMessageAnswer = {
     idMessage: string;
 }
 
-export type TReceiveNoteMessage = TReceiveNotification<TMessageBody>;
+export type TReceiveNoteMessageText = TReceiveNotification<TMessageBody<TMessageDataText>>;
+export type TReceiveNoteMessageExtText = TReceiveNotification<TMessageBody<TMessageDataExtText>>;
 export type TReceiveNoteStatus = TReceiveNotification<TStatusBody>;

@@ -6,7 +6,7 @@ import HeaderWithChat from './HeaderWithChat/HeaderWithChat';
 import ChatView from './ChatView/ChatView';
 import ChatInput from './ChatInput/ChatInput';
 import NewChat from './NewChat/NewChat';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SearchContext } from '../context/SearchContext';
 import { api } from '../utils/api/Api';
 import { TContactInfo } from '../types/TContactInfo';
