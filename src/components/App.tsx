@@ -13,6 +13,7 @@ import { TContactInfo } from '../types/TContactInfo';
 import { IChatItem } from '../interfaces/IChatList';
 import { IIncomeMessage, IOutgoMessage } from '../interfaces/IMessage';
 import { useGetNotifications } from '../hooks/useGetNotifications';
+import { useInterval } from '../hooks/useInterval';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
@@ -40,19 +41,29 @@ function App() {
   const [isInitialSearch, setIsInitialSearch] = useState(true);
   const [isInitialState, setIsInitialState] = useState(true);
   const [isButtonActive, setIsButtonActive] = useState(false);
-  const { getMessages, isLoad, messageState, resetMessageState } = useGetNotifications(api);
+  const { getMessages, isLoad, messageState, resetMessageState } =
+    useGetNotifications(api);
 
-  useEffect(()=>{setIsButtonActive(isLoad)},[isLoad]);
   useEffect(() => {
-    if (messageState) {      
-        setMessagesMap((prev)=>new Map([...prev, [messageState.chatId, [...prev.get(messageState.chatId)||[], messageState]]]));
-        resetMessageState()
+    setIsButtonActive(isLoad);
+  }, [isLoad]);
+
+  useEffect(() => {
+    if (messageState) {
+      setMessagesMap(
+        (prev) =>
+          new Map(prev).set(messageState.chatId,[...(prev.get(messageState.chatId) || []), messageState])
+      );
+      resetMessageState();
     }
-  }, [messageState,resetMessageState]);
+
+  }, [messageState, resetMessageState]);
 
   async function checkNotification() {
     await getMessages();    
   }
+
+  useInterval(async()=>{await getMessages()},isLoad?null:10000)
 
   useEffect(() => {
     setMessagesInChat(messagesMap.get(currentChat.chatId) || []);

@@ -23,7 +23,7 @@ const useGetNotifications = (a: typeof api) => {
         setIsLoad(true);
         let message: TReceiveNoteMessage | null | undefined;
         while (message !== null) {
-            message = await getNote();
+            message = await getNote();            
             if (!message) {
                 break;
             }
