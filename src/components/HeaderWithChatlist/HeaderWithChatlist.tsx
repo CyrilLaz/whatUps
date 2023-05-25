@@ -17,7 +17,7 @@ const HeaderWithChat: FC<IHeaderWithChat> = ({ setVisible, updateState,isButtonA
       <HeaderButton
         image={updateIcon}
         isButtonActive={isButtonActive}
-        callMenu={() => updateState().catch(console.error)}
+        callMenu={isButtonActive?()=>{console.error('too many request')}:() => updateState().catch(console.error)}
       />
     </>
   );
