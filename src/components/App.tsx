@@ -18,6 +18,7 @@ import AuthPage from './AuthPage/AuthPage';
 import { TApiData } from '../types/TApiData';
 import { AccountContext } from '../context/AccountContext';
 import { parseNumber } from '../utils/parseNumber';
+import parseHtml from '../utils/parseHtml';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
@@ -99,16 +100,17 @@ function App() {
 
   function onSubmitMessage() {
     const timestamp = Math.floor(Date.now() / 1000);
+    const parsedMessage = parseHtml(messageInputValue);
     api
       .sendMessage({
         chatId: contactInfo.chatId,
-        message: messageInputValue,
+        message: parsedMessage,
       })
       .then(({ idMessage }) => {
         const chat = messagesMap.get(contactInfo.chatId) || [];
 
         const message: IOutgoMessage = {
-          textMessage: messageInputValue,
+          textMessage: parsedMessage,
           type: 'outgoing',
           timestamp,
           statusMessage: 'sent',
