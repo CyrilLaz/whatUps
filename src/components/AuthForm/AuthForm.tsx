@@ -1,21 +1,46 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 import './AuthForm.scss';
+import { TApiData } from '../../types/TApiData';
 
-const AuthForm: FC = () => {
-  const errorField = useRef<HTMLSpanElement>(null);
-
+interface IAuthForm {
+  values: Omit<TApiData, 'host'>;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmitEnter: () => void;
+  errorMessage: string;
+}
+const AuthForm: FC<IAuthForm> = ({
+  values,
+  onSubmitEnter,
+  onChange,
+  errorMessage,
+}) => {
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    onSubmitEnter();
+  }
   return (
-    <form className='auth'>
+    <form className='auth' onSubmit={onSubmit}>
       <fieldset className='auth__inputs'>
         <label className='auth__label' htmlFor='idInstance'>
           IdInstance
         </label>
-        <input id='idInstance' type='text' required className='auth__input' />
-        <span ref={errorField} className="auth__error"></span>
+        <input
+          value={values.idInstance}
+          onChange={onChange}
+          name='idInstance'
+          id='idInstance'
+          type='text'
+          required
+          className='auth__input'
+        />
+        <span className='auth__error'>{errorMessage}</span>
         <label className='auth__label' htmlFor='apiTokenInstance'>
           ApiTokenInstance
         </label>
         <input
+          value={values.apiTokenInstance}
+          onChange={onChange}
+          name='apiTokenInstance'
           id='apiTokenInstance'
           type='text'
           required

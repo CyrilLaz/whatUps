@@ -14,9 +14,8 @@ import { IChatItem } from '../interfaces/IChatList';
 import { IIncomeMessage, IOutgoMessage } from '../interfaces/IMessage';
 import { useGetNotifications } from '../hooks/useGetNotifications';
 import { useInterval } from '../hooks/useInterval';
-import AuthForm from './AuthForm/AuthForm';
-import { AuthContext } from '../context/AuthContext';
 import AuthPage from './AuthPage/AuthPage';
+import { TApiData } from '../types/TApiData';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
@@ -145,9 +144,23 @@ function App() {
       .catch(console.log);
   }
 
+  function onEnter(v: Omit<TApiData, 'host'>) {
+    return api.login(v).then((res) => {
+      if (res) {
+        api.apiData = v;
+        setIsLogin(true);
+        return;
+      }
+      throw Error;
+    });
+  }
   return (
     <div className='app'>
-      <div className={`app__container${isLogin?'':' app__container_margin_zero'}`}>
+      <div
+        className={`app__container${
+          isLogin ? '' : ' app__container_margin_zero'
+        }`}
+      >
         <SearchContext.Provider
           value={{
             avatar: contactInfo.avatar,
@@ -157,48 +170,46 @@ function App() {
             setValue: setSearchValue,
           }}
         >
-          {/* <AuthContext.Provider value={{}}> */}
-            {isLogin ? (
-              <>
-                <NewChat
-                  onSearchSubmit={getContact}
-                  createChat={createChat}
-                  isVisible={isNewChatVisible}
+          {!isLogin ? (
+            <AuthPage onEnter={onEnter} />
+          ) : (
+            <>
+              <NewChat
+                onSearchSubmit={getContact}
+                createChat={createChat}
+                isVisible={isNewChatVisible}
+                setVisible={setIsNewChatVisible}
+                isEmptyField={isInitialSearch}
+                isNumberNotExist={isNumberNotExist}
+              />
+              <div className='app__chatlist'>
+                <HeaderWithChatlist
+                  isButtonActive={isButtonActive}
                   setVisible={setIsNewChatVisible}
-                  isEmptyField={isInitialSearch}
-                  isNumberNotExist={isNumberNotExist}
+                  updateState={checkNotification}
                 />
-                <div className='app__chatlist'>
-                  <HeaderWithChatlist
-                    isButtonActive={isButtonActive}
-                    setVisible={setIsNewChatVisible}
-                    updateState={checkNotification}
-                  />
-                  <ChatList chatList={chatList} />
-                </div>
-                <div className='app__conversation'>
-                  {isInitialState ? (
-                    <InitialChatView />
-                  ) : (
-                    <>
-                      <HeaderWithChat
-                        avatarUrl={contactInfo.avatar}
-                        name={contactInfo.name}
-                      />
-                      <ChatView messages={messagesInChat} />
-                      <ChatInput
-                        onSubmitMessage={onSubmitMessage}
-                        setMessageInputValue={setMessageInputValue}
-                        messageInputValue={messageInputValue}
-                      />
-                    </>
-                  )}
-                </div>
-              </>
-            ) : (
-              <AuthPage />
-            )}
-          {/* </AuthContext.Provider> */}
+                <ChatList chatList={chatList} />
+              </div>
+              <div className='app__conversation'>
+                {isInitialState ? (
+                  <InitialChatView />
+                ) : (
+                  <>
+                    <HeaderWithChat
+                      avatarUrl={contactInfo.avatar}
+                      name={contactInfo.name}
+                    />
+                    <ChatView messages={messagesInChat} />
+                    <ChatInput
+                      onSubmitMessage={onSubmitMessage}
+                      setMessageInputValue={setMessageInputValue}
+                      messageInputValue={messageInputValue}
+                    />
+                  </>
+                )}
+              </div>
+            </>
+          )}
         </SearchContext.Provider>
       </div>
     </div>
