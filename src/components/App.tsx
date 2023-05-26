@@ -17,6 +17,7 @@ import { useInterval } from '../hooks/useInterval';
 import AuthPage from './AuthPage/AuthPage';
 import { TApiData } from '../types/TApiData';
 import { AccountContext } from '../context/AccountContext';
+import { parseNumber } from '../utils/parseNumber';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
@@ -139,6 +140,8 @@ function App() {
         throw new Error('Нет пользователя в ватсапе');
       })
       .then((res) => {
+        if (res.name.length === 0) res.name = parseNumber(contactInfo.chatId); // если имя отсутствует у контакта пишем в это поле номер телефона
+        if (res.avatar.length===0) res.avatar = 'https://www.svgrepo.com/show/500470/avatar.svg' // дефолтная фотография для контакта
         setIsInitialSearch(false);
         setContactInfo(res);
       })
@@ -159,7 +162,8 @@ function App() {
       .then((res) => api.getContactInfo(res.wid))
       .then((res) => {
         setIsLogin(true);
-        setAccount(res)});
+        setAccount(res);
+      });
   }
   return (
     <div className='app'>
