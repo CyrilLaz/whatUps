@@ -12,7 +12,7 @@ interface INewChat {
 }
 
 const NewChat: FC<INewChat> = (props) => {
-  const { setValue, value, avatar, name, chatId } = useSearchContext();
+  const { setValue, value, avatar, name } = useSearchContext();
 
   function onChange(e: ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value);

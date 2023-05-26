@@ -28,7 +28,8 @@
         overflow-wrap: anywhere;
         font-size: 15px;
         font-weight: 400;
-
+        white-space: pre-wrap;
+        
         &:focus {
             border: none;
             outline: none;
