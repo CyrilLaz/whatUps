@@ -17,7 +17,7 @@ const ChatItem: FC<IChatItem> = (props): JSX.Element => {
         </div>
         <div className='chat-item__info'>
           <p className='chat-item__message'>{props.lastMessage}</p>
-          <span className='chat-item__counter'>{props.counter}</span>
+          <span className={`chat-item__counter${props.counter===0?' chat-item__counter_hidden':''}`}>{props.counter}</span>
         </div>
       </div>
     </li>

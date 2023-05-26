@@ -66,5 +66,9 @@
         font-weight: 400;
         background-color: #00a884;
         color: #111b21;
+
+        &_hidden{
+            display: none;
+        }
     }
 }
