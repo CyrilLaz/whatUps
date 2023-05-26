@@ -60,7 +60,14 @@
         border-radius: 7.5px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+
+        &:has(.new-chat__phone:focus)::before,
+        &:has(.new-chat__phone:valid)::before {
+            content: "+";
+            font-size: 15px;
+            margin: 0 0 0 5px;
+            padding: 0;
+        }
     }
 
     &__phone {
@@ -69,6 +76,7 @@
         color: $textColor;
         font-size: 15px;
         padding: 7px;
+        padding-left: 2px;
         width: 80%;
 
         &:focus {
@@ -88,6 +96,7 @@
         cursor: pointer;
         transition: transform 0.3s ease-in-out;
         margin: 5px;
+        margin-left: auto;
 
         &:hover {
             transform: scale(1.1);

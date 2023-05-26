@@ -35,6 +35,7 @@ const NewChat: FC<INewChat> = (props) => {
       <form onSubmit={onSearchSubmit} className='new-chat__search'>
         <div className='new-chat__input-container'>
           <input
+            required
             type='text'
             pattern='^[0-9]+$'
             onChange={onChange}
