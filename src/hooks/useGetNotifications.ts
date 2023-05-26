@@ -2,7 +2,6 @@ import { IIncomeMessage } from "../interfaces/IMessage";
 import { useCallback, useState } from 'react';
 import { api } from "../utils/api/Api";
 import { TReceiveNoteMessageExtText, TReceiveNoteMessageText } from "../types/TMessage";
-import { log } from "console";
 
 const useGetNotifications = (a: typeof api) => {
     const [messageState, setMessageState] = useState<IIncomeMessage>();
@@ -47,7 +46,6 @@ const useGetNotifications = (a: typeof api) => {
                     default:
                         console.error('пришло неопознанное уведомление')
                         console.log(message);
-                        
                         break;
                 }
             }
