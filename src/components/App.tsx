@@ -16,6 +16,7 @@ import { useGetNotifications } from '../hooks/useGetNotifications';
 import { useInterval } from '../hooks/useInterval';
 import AuthPage from './AuthPage/AuthPage';
 import { TApiData } from '../types/TApiData';
+import { AccountContext } from '../context/AccountContext';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
@@ -31,7 +32,7 @@ function App() {
     name: '',
     chatId: '',
   });
-
+  const [account, setAccount] = useState<TContactInfo>();
   const [messagesMap, setMessagesMap] = useState<
     Map<string, (IIncomeMessage | IOutgoMessage)[]>
   >(new Map([]));
@@ -131,7 +132,7 @@ function App() {
       .then((res) => {
         if (res.existsWhatsapp) {
           setSearchValue('');
-          return api.getContact(searchValue);
+          return api.getContactInfo(`${searchValue}@c.us`);
         }
         setIsInitialSearch(false);
         setIsNumberNotExist(true);
@@ -145,14 +146,20 @@ function App() {
   }
 
   function onEnter(v: Omit<TApiData, 'host'>) {
-    return api.login(v).then((res) => {
-      if (res) {
-        api.apiData = v;
+    return api
+      .login(v)
+      .then((res) => {
+        if (res) {
+          api.apiData = v;
+          return;
+        }
+        throw Error;
+      })
+      .then(() => api.getSettings())
+      .then((res) => api.getContactInfo(res.wid))
+      .then((res) => {
         setIsLogin(true);
-        return;
-      }
-      throw Error;
-    });
+        setAccount(res)});
   }
   return (
     <div className='app'>
@@ -161,56 +168,58 @@ function App() {
           isLogin ? '' : ' app__container_margin_zero'
         }`}
       >
-        <SearchContext.Provider
-          value={{
-            avatar: contactInfo.avatar,
-            name: contactInfo.name,
-            chatId: contactInfo.chatId,
-            value: searchValue,
-            setValue: setSearchValue,
-          }}
-        >
-          {!isLogin ? (
-            <AuthPage onEnter={onEnter} />
-          ) : (
-            <>
-              <NewChat
-                onSearchSubmit={getContact}
-                createChat={createChat}
-                isVisible={isNewChatVisible}
-                setVisible={setIsNewChatVisible}
-                isEmptyField={isInitialSearch}
-                isNumberNotExist={isNumberNotExist}
-              />
-              <div className='app__chatlist'>
-                <HeaderWithChatlist
-                  isButtonActive={isButtonActive}
+        <AccountContext.Provider value={account}>
+          <SearchContext.Provider
+            value={{
+              avatar: contactInfo.avatar,
+              name: contactInfo.name,
+              chatId: contactInfo.chatId,
+              value: searchValue,
+              setValue: setSearchValue,
+            }}
+          >
+            {!isLogin ? (
+              <AuthPage onEnter={onEnter} />
+            ) : (
+              <>
+                <NewChat
+                  onSearchSubmit={getContact}
+                  createChat={createChat}
+                  isVisible={isNewChatVisible}
                   setVisible={setIsNewChatVisible}
-                  updateState={checkNotification}
+                  isEmptyField={isInitialSearch}
+                  isNumberNotExist={isNumberNotExist}
                 />
-                <ChatList chatList={chatList} />
-              </div>
-              <div className='app__conversation'>
-                {isInitialState ? (
-                  <InitialChatView />
-                ) : (
-                  <>
-                    <HeaderWithChat
-                      avatarUrl={contactInfo.avatar}
-                      name={contactInfo.name}
-                    />
-                    <ChatView messages={messagesInChat} />
-                    <ChatInput
-                      onSubmitMessage={onSubmitMessage}
-                      setMessageInputValue={setMessageInputValue}
-                      messageInputValue={messageInputValue}
-                    />
-                  </>
-                )}
-              </div>
-            </>
-          )}
-        </SearchContext.Provider>
+                <div className='app__chatlist'>
+                  <HeaderWithChatlist
+                    isButtonActive={isButtonActive}
+                    setVisible={setIsNewChatVisible}
+                    updateState={checkNotification}
+                  />
+                  <ChatList chatList={chatList} />
+                </div>
+                <div className='app__conversation'>
+                  {isInitialState ? (
+                    <InitialChatView />
+                  ) : (
+                    <>
+                      <HeaderWithChat
+                        avatarUrl={contactInfo.avatar}
+                        name={contactInfo.name}
+                      />
+                      <ChatView messages={messagesInChat} />
+                      <ChatInput
+                        onSubmitMessage={onSubmitMessage}
+                        setMessageInputValue={setMessageInputValue}
+                        messageInputValue={messageInputValue}
+                      />
+                    </>
+                  )}
+                </div>
+              </>
+            )}
+          </SearchContext.Provider>
+        </AccountContext.Provider>
       </div>
     </div>
   );

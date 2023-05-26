@@ -1,4 +1,4 @@
-import { TApiData } from '../../types/TApiData';
+import { TApiData, TGetSettings } from '../../types/TApiData';
 import axios from 'axios';
 import { TContactInfo, TApiCheckNumber } from '../../types/TContactInfo';
 import { TReceiveNoteMessageExtText, TReceiveNoteMessageText, TResponseDeleteNotification, TSendMessage, TSendMessageAnswer } from '../../types/TMessage';
@@ -32,10 +32,10 @@ class Api {
     return `${this.host}/waInstance${this.id}/${a}/${this.token}`
   }
 
-  getContact(number: string): Promise<TContactInfo> {
+  getContactInfo(number: string): Promise<TContactInfo> {
     return axios
       .post(this._urlRequest('GetContactInfo'), {
-        chatId: `${number}@c.us`,
+        chatId: number,
       })
       .then(({ data }) => data);
   }
@@ -58,6 +58,10 @@ class Api {
 
   deleteNotification(id: number): Promise<TResponseDeleteNotification> {
     return axios.delete(`${this._urlRequest('deleteNotification')}/${id}`).then(({ data }) => data);
+  }
+
+  getSettings():Promise<TGetSettings>{
+    return axios.get(this._urlRequest('getSettings')).then(({ data }) => data);
   }
 }
 
