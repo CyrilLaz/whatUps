@@ -20,6 +20,11 @@ const ChatInput: FC<IChatInputProps> = ({
     if (!isEmpty) onSubmitMessage();
   }
 
+  const pasteAsPlainText = (e:React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault();   
+    setMessageInputValue(prev=>prev + e.clipboardData.getData("text/plain"))
+  }
+
   useEffect(() => {
     setIsEmpty(messageInputValue.length === 0);
   }, [messageInputValue]);
@@ -36,6 +41,7 @@ const ChatInput: FC<IChatInputProps> = ({
           disabled={false}
           onChange={onChange}
           className='chat-input__input'
+          onPaste={pasteAsPlainText}
         />
         <span
           className={`chat-input__placeholder${
