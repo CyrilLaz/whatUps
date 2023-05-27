@@ -9,7 +9,7 @@ class Api {
   host: string;
   id: string | undefined;
   token: string | undefined;
-  constructor({ host }: Omit<TApiData, 'idInstance' | 'apiTokenInstance'>) {
+  constructor({ host='https://api.green-api.com' }: Omit<TApiData, 'idInstance' | 'apiTokenInstance'>) {
     this.host = host;
   }
 
