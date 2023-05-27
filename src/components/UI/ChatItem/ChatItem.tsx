@@ -4,7 +4,7 @@ import { IChatItem } from '../../../interfaces/IChatList';
 
 const ChatItem: FC<IChatItem> = ({onClick,...props}): JSX.Element => {
   return (
-    <li onClick={()=>onClick()} key={props.id} className='chat-item'>
+    <li onClick={onClick} key={props.id} className='chat-item'>
       <img
         src={props.avatarUrl}
         alt='Изображение аватары пользователя'
