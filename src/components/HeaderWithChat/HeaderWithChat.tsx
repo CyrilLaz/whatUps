@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Header from '../layouts/Header/Header';
 import { IChatItem } from '../../interfaces/IChatList';
 
-const HeaderWithChat: FC<Omit<Omit<IChatItem, 'id'>, 'counter'>> = (props) => {
+const HeaderWithChat: FC<Omit<IChatItem, 'id'| 'counter'|'onClick'>> = (props) => {
   const info = (
     <>
       <h3

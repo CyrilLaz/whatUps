@@ -81,7 +81,7 @@ function App() {
     setMessagesInChat(messagesMap.get(currentChat.chatId) || []);
   }, [messagesMap, currentChat]);
 
-  function createChat() {
+  function createNewChat() {
     setSearchValue('');
     setIsNewChatVisible(false);
     setIsInitialSearch(true);
@@ -92,10 +92,16 @@ function App() {
         name: contactInfo.name,
         id: contactInfo.chatId,
         counter: 0,
+        onClick:()=>switchChat(contactInfo)
       },
       ...chatList,
     ]);
-    setCurrentChat(contactInfo);
+    // setCurrentChat(contactInfo);
+    switchChat(contactInfo);
+  }
+
+  function switchChat(chatInfo: TContactInfo) {
+    setCurrentChat(chatInfo);
   }
 
   function onSubmitMessage() {
@@ -103,11 +109,11 @@ function App() {
     const parsedMessage = parseHtml(messageInputValue);
     api
       .sendMessage({
-        chatId: contactInfo.chatId,
+        chatId: currentChat.chatId,
         message: parsedMessage,
       })
       .then(({ idMessage }) => {
-        const chat = messagesMap.get(contactInfo.chatId) || [];
+        const chat = messagesMap.get(currentChat.chatId) || [];
 
         const message: IOutgoMessage = {
           textMessage: parsedMessage,
@@ -115,11 +121,11 @@ function App() {
           timestamp,
           statusMessage: 'sent',
           idMessage,
-          chatId: contactInfo.chatId,
+          chatId: currentChat.chatId,
         };
 
         setMessagesMap(
-          new Map([...messagesMap, [contactInfo.chatId, [...chat, message]]])
+          new Map([...messagesMap, [currentChat.chatId, [...chat, message]]])
         );
         setMessagesInChat(messagesMap.get(currentChat.chatId) || []);
         setMessageInputValue('');
@@ -143,7 +149,8 @@ function App() {
       })
       .then((res) => {
         if (res.name.length === 0) res.name = parseNumber(contactInfo.chatId); // если имя отсутствует у контакта пишем в это поле номер телефона
-        if (res.avatar.length===0) res.avatar = 'https://www.svgrepo.com/show/500470/avatar.svg' // дефолтная фотография для контакта
+        if (res.avatar.length === 0)
+          res.avatar = 'https://www.svgrepo.com/show/500470/avatar.svg'; // дефолтная фотография для контакта
         setIsInitialSearch(false);
         setContactInfo(res);
       })
@@ -190,7 +197,7 @@ function App() {
               <>
                 <NewChat
                   onSearchSubmit={getContact}
-                  createChat={createChat}
+                  createChat={createNewChat}
                   isVisible={isNewChatVisible}
                   setVisible={setIsNewChatVisible}
                   isEmptyField={isInitialSearch}
@@ -210,8 +217,8 @@ function App() {
                   ) : (
                     <>
                       <HeaderWithChat
-                        avatarUrl={contactInfo.avatar}
-                        name={contactInfo.name}
+                        avatarUrl={currentChat.avatar}
+                        name={currentChat.name}
                       />
                       <ChatView messages={messagesInChat} />
                       <ChatInput

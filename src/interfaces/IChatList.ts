@@ -5,6 +5,7 @@ export interface IChatItem {
     id: string;
     timeStamp?: string
     counter: number
+    onClick:()=>void
 }
 
 export interface IChatListProps {

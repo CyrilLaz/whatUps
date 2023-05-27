@@ -2,9 +2,9 @@ import React, { FC, JSX } from 'react';
 import './ChatItem.scss';
 import { IChatItem } from '../../../interfaces/IChatList';
 
-const ChatItem: FC<IChatItem> = (props): JSX.Element => {
+const ChatItem: FC<IChatItem> = ({onClick,...props}): JSX.Element => {
   return (
-    <li key={props.id} className='chat-item'>
+    <li onClick={()=>onClick()} key={props.id} className='chat-item'>
       <img
         src={props.avatarUrl}
         alt='Изображение аватары пользователя'
