@@ -19,6 +19,7 @@ import { TApiData } from '../types/TApiData';
 import { AccountContext } from '../context/AccountContext';
 import { parseNumber } from '../utils/parseNumber';
 import parseHtml from '../utils/parseHtml';
+import { UPDATE_INTERVAL } from '../constants/settings';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
@@ -74,7 +75,7 @@ function App() {
     async () => {
       await getMessages();
     },
-    isLogin ? (isLoad ? null : 10000) : null
+    isLogin ? (isLoad ? null : UPDATE_INTERVAL) : null
   );
 
   useEffect(() => {
