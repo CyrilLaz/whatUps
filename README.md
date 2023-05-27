@@ -4,9 +4,9 @@
 | ----- | ---------- | ---- | --- |
 
 Приложение дублирующее некоторый функционал web версии whatsapp, и повторяет его дизайн.\
-В качестве API решение от [Green Api]([https://green-api.com/]).
+В качестве API решение [Green Api](https://green-api.com/).
 
-В качестве `host` по дефолту стоит `https://api.green-api.com`, задать своё можно переменной окружения `REACT_APP_HOST`.
+В качестве `host` по дефолту стоит `https://api.green-api.com`, задать своё можно переменной окружения `REACT_APP_HOST`.\
 Частоту запросов API можно менять в файле `src/constants/settings.js`
 
 - Локальный запуск:  
@@ -40,7 +40,7 @@ align-item='center' src='./assets/intro-landing.jpg'>
 <details>
   <summary>Screenshot</summary>
 <p align="center">
-<img  height='150px' 
+<img  height='250px' 
 align-item='center' src='./assets/intro.jpg'>
 </p>
 </details>
@@ -74,7 +74,6 @@ align-item='center' src='./assets/chat.jpg'>
 - состояние аутентификации не сохраняется;
 - верстка адекватно себя ведет при ширине разрешения выше `700px`;
 - запросы на отправление и получение сообщений происходят через HTTP с помощью библиотеки [`axios`](https://github.com/axios/axios);
--
 - основа приложения Create-react-app;
 - компилятор TypeScript настроен на ES6;
 - в вёрстке руководствовался БЭМом.
