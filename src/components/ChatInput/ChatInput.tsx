@@ -1,13 +1,4 @@
-import {
-  FC,
-  useState,
-  FormEvent,
-  useEffect,
-  useCallback,
-  useRef,
-  BaseSyntheticEvent,
-  ReactElement,
-} from 'react';
+import { FC, useState, FormEvent, useEffect } from 'react';
 import './ChatInput.scss';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 
@@ -23,8 +14,6 @@ const ChatInput: FC<IChatInputProps> = ({
   onSubmitMessage,
 }) => {
   const [isEmpty, setIsEmpty] = useState(true);
-  const input = useRef<any>(null);
-  const [isEnter, setIsEnter] = useState(false);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -44,7 +33,6 @@ const ChatInput: FC<IChatInputProps> = ({
 
   function onChange(e: ContentEditableEvent) {
     setMessageInputValue(e.target.value);
-    // input.current = e.target.value;
   }
 
   const onKeyDownEnter = (e: React.KeyboardEvent<HTMLFormElement>) => {
@@ -57,13 +45,10 @@ const ChatInput: FC<IChatInputProps> = ({
     }
   };
 
-  // use
   return (
     <form className='chat-input' onSubmit={onSubmit} onKeyDown={onKeyDownEnter}>
       <div className='chat-input__container'>
         <ContentEditable
-          // onKeyDown={onKeyDownEnter}
-          // ref={input}
           html={messageInputValue}
           disabled={false}
           onChange={onChange}
