@@ -1,0 +1,44 @@
+@import "../styles/variables.scss";
+
+.app {
+  margin: 0;
+  font-family: $fontFamily;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $mainBackColor;
+  display: flex;
+  color: $textColor;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+
+  &__container {
+    display: flex;
+    max-width: 1600px;
+    margin: 19px auto;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+
+    &_margin_zero {
+      margin: 0;
+      max-width: none;
+    }
+  }
+
+  &__chatlist {
+    flex: 0 0 30%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(134, 150, 160, 0.5);
+  }
+
+  &__conversation {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
